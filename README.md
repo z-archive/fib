@@ -6,3 +6,9 @@ g++ fib.cpp -lpthread
 time ./a.out
 # sequentional
 time ./a.out 2
+
+# branch "master"
+incorrect version, we do not count the threads overhead to initialization and join
+
+# branch "right"
+correct version, we count threads overhead
