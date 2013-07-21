@@ -41,18 +41,18 @@ int main(int argc, char **argv) {
     for(long r=0; r < 1000*1000; ++r) {
         if (argc == 2) {
             result = fib(n);
+        } else {
+            pthread_attr_init(&attr);
+            pthread_attr_setdetachstate(&attr, PTHREAD_CREATE_JOINABLE);
+
+            pthread_create(&t1, &attr, fib_worker_one, (void *) &v1);
+            pthread_create(&t2, &attr, fib_worker_two, (void *) &v2);
+
+            pthread_join(t1, &status);
+            pthread_join(t2, &status);
+
+            result = val1 + val2;
         }
-
-        pthread_attr_init(&attr);
-        pthread_attr_setdetachstate(&attr, PTHREAD_CREATE_JOINABLE);
-
-        pthread_create(&t1, &attr, fib_worker_one, (void *) &v1);
-        pthread_create(&t2, &attr, fib_worker_two, (void *) &v2);
-
-        pthread_join(t1, &status);
-        pthread_join(t2, &status);
-
-        result = val1 + val2;
     }
     std::cout << result << std::endl;
 
